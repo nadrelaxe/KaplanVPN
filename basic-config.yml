@@ -1,0 +1,98 @@
+version: "3.3"
+
+services:
+
+  traefik:
+    image: "traefik:v2.2"
+    container_name: traefik
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - "/home/docker/traefik/traefik.toml:/traefik.toml"
+      - "/home/docker/traefik/traefik_dynamic.toml:/traefik_dynamic.toml"
+      - "/home/docker/traefik/acme.json:/acme.json"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - web
+    restart: always
+
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    depends_on:
+      - "traefik"
+    volumes:
+      - /home/docker/portainer/:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - traefik.http.routers.portainer.rule=Host(`portainer.$DOMAIN`)
+      - traefik.http.routers.portainer.tls=true
+      - traefik.http.routers.portainer.tls.certresolver=lets-encrypt
+      - traefik.http.services.portainer.loadbalancer.server.port=9000
+      - traefik.docker.network=web
+      - traefik.port=9000
+      - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - web
+    restart: always
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - traefik.enable=false
+    command: --label-enable
+
+  homer:
+    image: b4bz/homer:latest
+    container_name: homepage
+    depends_on:
+      - "traefik"
+    volumes:
+      - /home/docker/homer/:/www/assets
+    labels:
+      - traefik.http.routers.homepage.rule=Host(`$DOMAIN`)
+      - traefik.http.routers.homepage.tls=true
+      - traefik.http.routers.homepage.tls.certresolver=lets-encrypt
+      - traefik.docker.network=web
+      - traefik.port=8080
+      - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - web
+    restart: always
+
+  wireguard:
+    image: linuxserver/wireguard
+    container_name: wireguard
+    network_mode: bridge
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - SERVERURL=vpn.$DOMAIN
+      - SERVERPORT=51820
+      - PEERS=3
+      - PEERDNS=auto
+      - INTERNAL_SUBNET=10.13.13.0
+    volumes:
+      - /home/docker/wireguard:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - 51820:51820
+      - 51820:51820/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
+
+networks:
+  web:
+    external: true
+    name: web
