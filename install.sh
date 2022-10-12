@@ -11,14 +11,17 @@
 exiterr() { echo "Error: $1" >&2; exit 1; }
 
 set -e
-
 export DEBIAN_FRONTEND=noninteractive
 
-## ensure run as nonroot user
-#if [ "$EUID" -eq 0 ]; then
+## VARIABLES ##
+INITIAL_DIR=pwd
 USER="kaplan"
 TRAEFIK_DEFAULT_PASSWORD="$TRAEFIK_DEFAULT_PASSWORD"
+DOMAIN_NAME="$DOMAIN_NAME"
+TRAEFIK_FOLDER="/home/docker/traefik"
+OPT_FOLDER="/opt"
 
+# ensure run as nonroot user
 if [ $(whoami) != "$USER" ]; then
         echo "Creating user: $USER"
         sudo useradd -s /bin/bash -d /home/$USER -m -G sudo $USER 2>/dev/null || true
@@ -84,6 +87,7 @@ figlet "Admin password"
 # apache tools + traefik admin password
 sudo apt-get install -y apache2-utils
 
+# traefik password
 while [ -z "${TRAEFIK_DEFAULT_PASSWORD}" ]; do
     echo
     echo "The default admin password may only container alphanumeric characters and _"
@@ -100,6 +104,44 @@ done
 
 ENC_TRAEFIK_PASSWORD=$(htpasswd -nb admin $TRAEFIK_DEFAULT_PASSWORD)
 
-echo $ENC_TRAEFIK_PASSWORD
+figlet "Domain name"
+
+# domain name
+while [ -z "${DOMAIN_NAME}" ]; do
+    echo
+    read -p "Please write the domain name for the containers configuration : " -s DOMAIN_NAME
+    echo
+done
+
+figlet "Configuration files"
+
+# copy the traefik templates to docker/traefik
+sudo mkdir -p $TRAEFIK_FOLDER
+sudo mkdir -p $OPT_FOLDER
+
+sudo cp *.toml $TRAEFIK_FOLDER
+sudo cp *.yml $OPT_FOLDER
+
+cd $TRAEFIK_FOLDER
+touch acme.json && chmod 600 acme.json
+
+# TODO : Modify the files to replaces the variables in traefik_dynamic.toml
+# $DOMAIN and $PASSWORD
+
+cd $OPT_FOLDER
+# TODO : same here
+
+#back to the original folder
+cd $INITIAL_DIR
+
+figlet "Docker config"
+
+# docker configuration
+docker network create web
+
+figlet "Starting up!"
+#start the shit and make profit
+
+# potentially export the codes for wireguard and make sure everything is running smoothly ?
 
 #TODO : Add a reminder to reboot the machine after the installation
