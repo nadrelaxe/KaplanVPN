@@ -10,7 +10,6 @@
 
 exiterr() { echo "Error: $1" >&2; exit 1; }
 
-
 export DEBIAN_FRONTEND=noninteractive
 
 ## ensure run as nonroot user
