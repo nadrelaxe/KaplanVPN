@@ -9,10 +9,10 @@ apt-get install -y git
 then clone this repository in a folder
 
 ```shell
-cd /tmp
-git clone https://github.com/nadrelaxe/KaplanVPN.git 
-cd KaplanVPN/
-chmod +x install.sh && sudo install.sh
+cd /tmp && \
+git clone https://github.com/nadrelaxe/KaplanVPN.git && \
+cd KaplanVPN/ && \
+chmod +x install.sh && ./install.sh
 ```
 
 voila! 
