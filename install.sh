@@ -16,7 +16,9 @@ export DEBIAN_FRONTEND=noninteractive
 
 ## ensure run as nonroot user
 #if [ "$EUID" -eq 0 ]; then
-USER="KAPLAN"
+USER="kaplan"
+TRAEFIK_DEFAULT_PASSWORD="$TRAEFIK_DEFAULT_PASSWORD"
+
 if [ $(whoami) != "$USER" ]; then
         echo "Creating user: $USER"
         sudo useradd -s /bin/bash -d /home/$USER -m -G sudo $USER 2>/dev/null || true
@@ -82,7 +84,7 @@ figlet "Admin password"
 # apache tools + traefik admin password
 sudo apt-get install -y apache2-utils
 
-while [ -z "${TRAEFIK_DEFAULT_PASSWORD}" ] do
+while [ -z "${TRAEFIK_DEFAULT_PASSWORD}" ]; do
     echo
     echo "The default admin password may only container alphanumeric characters and _"
     read -p "Please write the default admin password : " -s TRAEFIK_DEFAULT_PASSWORD
