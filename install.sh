@@ -10,6 +10,8 @@
 
 exiterr() { echo "Error: $1" >&2; exit 1; }
 
+set -e
+
 export DEBIAN_FRONTEND=noninteractive
 
 ## ensure run as nonroot user
@@ -48,6 +50,9 @@ if ! [ -x "$(command -v git)" ]; then
     sudo apt-get install -y git
 fi
 
+figlet "System info"
+
+source ./scripts/get_distro.sh
 figlet "Update"
 
 # update the system
@@ -94,3 +99,5 @@ done
 ENC_TRAEFIK_PASSWORD=$(htpasswd -nb admin $TRAEFIK_DEFAULT_PASSWORD)
 
 echo $ENC_TRAEFIK_PASSWORD
+
+#TODO : Add a reminder to reboot the machine after the installation

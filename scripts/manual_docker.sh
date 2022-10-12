@@ -50,6 +50,7 @@ elif [ "$DISTRO" == "raspbian" ] || [ "$DISTRO" == "raspios" ]; then
 fi
 
 # Docker group
+newgrp docker
 sudo usermod -aG docker $USER
 
 # Docker Compose
