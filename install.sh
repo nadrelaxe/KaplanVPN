@@ -82,6 +82,8 @@ fi
 sudo systemctl enable docker
 sudo systemctl start docker
 
+sudo usermod -aG docker $USER
+
 figlet "Admin password"
 
 # apache tools + traefik admin password
@@ -107,11 +109,9 @@ ENC_TRAEFIK_PASSWORD=$(htpasswd -nb admin $TRAEFIK_DEFAULT_PASSWORD)
 figlet "Domain name"
 
 # domain name
-while [ -z "${DOMAIN_NAME}" ]; do
-    echo
-    read -p "Please write the domain name for the containers configuration : " DOMAIN_NAME
-    echo
-done
+echo
+read -p "Please write the domain name for the containers configuration : " DOMAIN_NAME
+echo
 
 figlet "Configuration files"
 
@@ -126,8 +126,6 @@ cd $TRAEFIK_FOLDER
 sudo touch acme.json && sudo chmod 600 acme.json
 
 # TODO : Modify the files to replaces the variables in traefik_dynamic.toml
-echo "$DOMAIN"
-echo "$PASSWORD"
 
 cd $OPT_FOLDER
 # TODO : same here
@@ -138,7 +136,7 @@ cd $INITIAL_DIR
 figlet "Docker config"
 
 # docker configuration
-docker network create web
+sudo docker network create web
 
 figlet "Starting up!"
 #start the shit and make profit
