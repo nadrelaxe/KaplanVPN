@@ -18,6 +18,7 @@ INITIAL_DIR=$(pwd)
 USER="kaplan"
 TRAEFIK_DEFAULT_PASSWORD="$TRAEFIK_DEFAULT_PASSWORD"
 DOMAIN_NAME="$DOMAIN_NAME"
+EMAIL="$EMAIL"
 TRAEFIK_FOLDER="/home/docker/traefik"
 OPT_FOLDER="/opt"
 
@@ -66,7 +67,7 @@ echo
 
 # email
 echo
-read -p "Please write your email for lets encrypt : " DOMAIN_NAME
+read -p "Please write your email for lets encrypt : " EMAIL
 echo
 
 # check that figlet exists
