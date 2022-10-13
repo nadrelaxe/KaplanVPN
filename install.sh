@@ -14,7 +14,7 @@ set -e
 export DEBIAN_FRONTEND=noninteractive
 
 ## VARIABLES ##
-INITIAL_DIR=pwd
+INITIAL_DIR=$(pwd)
 USER="kaplan"
 TRAEFIK_DEFAULT_PASSWORD="$TRAEFIK_DEFAULT_PASSWORD"
 DOMAIN_NAME="$DOMAIN_NAME"
@@ -126,8 +126,8 @@ cd $TRAEFIK_FOLDER
 sudo touch acme.json && sudo chmod 600 acme.json
 
 # TODO : Modify the files to replaces the variables in traefik_dynamic.toml
-echo $DOMAIN 
-echo $PASSWORD
+echo "$DOMAIN"
+echo "$PASSWORD"
 
 cd $OPT_FOLDER
 # TODO : same here
