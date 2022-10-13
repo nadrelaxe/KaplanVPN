@@ -109,7 +109,7 @@ figlet "Domain name"
 # domain name
 while [ -z "${DOMAIN_NAME}" ]; do
     echo
-    read -p "Please write the domain name for the containers configuration : " -s DOMAIN_NAME
+    read "Please write the domain name for the containers configuration : " -s DOMAIN_NAME
     echo
 done
 
@@ -123,10 +123,11 @@ sudo cp *.toml $TRAEFIK_FOLDER
 sudo cp *.yml $OPT_FOLDER
 
 cd $TRAEFIK_FOLDER
-touch acme.json && chmod 600 acme.json
+sudo touch acme.json && sudo chmod 600 acme.json
 
 # TODO : Modify the files to replaces the variables in traefik_dynamic.toml
-# $DOMAIN and $PASSWORD
+echo $DOMAIN 
+echo $PASSWORD
 
 cd $OPT_FOLDER
 # TODO : same here
