@@ -117,8 +117,8 @@ figlet "Config files"
 # copy the traefik templates to docker/traefik
 sudo mkdir -p $TRAEFIK_FOLDER
 sudo mkdir -p $OPT_FOLDER
-sudo cp *.toml $TRAEFIK_FOLDER
-sudo cp *.yml $OPT_FOLDER
+sudo cp resources/*.toml $TRAEFIK_FOLDER
+sudo cp resources/*.yml $OPT_FOLDER
 
 # traefik configuration
 cd $TRAEFIK_FOLDER
