@@ -130,15 +130,15 @@ sudo cp *.yml $OPT_FOLDER
 cd $TRAEFIK_FOLDER
 sudo touch acme.json && sudo chmod 600 acme.json
 
-sed -i "s/TRAEFIKPASSWORD/$ENC_TRAEFIK_PASSWORD/" traefik_dynamic.toml
-sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/" traefik_dynamic.toml
-sed -i "s/EMAIL/$DOMAIN_NAME/" traefik.toml
+sed -i "s/TRAEFIKPASSWORD/$ENC_TRAEFIK_PASSWORD/g" traefik_dynamic.toml
+sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" traefik_dynamic.toml
+sed -i "s/EMAIL/$DOMAIN_NAME/g" traefik.toml
 
 cd $OPT_FOLDER
 
-sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/" basic-config.yml
-sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/" apps-config.yml
-sed -i "s/SECRETPASSWORD/$TRAEFIK_DEFAULT_PASSWORD/" apps-config.yml
+sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" basic-config.yml
+sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" apps-config.yml
+sed -i "s/SECRETPASSWORD/$TRAEFIK_DEFAULT_PASSWORD/g" apps-config.yml
 
 #back to the original folder
 cd $INITIAL_DIR
