@@ -43,6 +43,32 @@ fi
 
 echo "Running as $USER"
 
+## USER INTERACTION ##
+# traefik password
+while [ -z "${TRAEFIK_DEFAULT_PASSWORD}" ]; do
+    echo
+    echo "The default admin password may only container alphanumeric characters and _"
+    read -p "Please write the default admin password : " -s TRAEFIK_DEFAULT_PASSWORD
+    echo
+
+    if [[ ${TRAEFIK_DEFAULT_PASSWORD} =~ ^[A-Za-z0-9_]+$ ]]; then
+        echo "Password accepted"
+    else
+        unset TRAEFIK_DEFAULT_PASSWORD
+        echo "Try again"
+    fi
+done
+
+# domain name
+echo
+read -p "Please write the domain name for the containers configuration : " DOMAIN_NAME
+echo
+
+# email
+echo
+read -p "Please write your email for lets encrypt : " DOMAIN_NAME
+echo
+
 # check that figlet exists
 if ! [ -x "$(command -v figlet)" ]; then
     echo "Installing figlet"
@@ -88,32 +114,11 @@ figlet "Admin password"
 
 # apache tools + traefik admin password
 sudo apt-get install -y apache2-utils
-
-# traefik password
-while [ -z "${TRAEFIK_DEFAULT_PASSWORD}" ]; do
-    echo
-    echo "The default admin password may only container alphanumeric characters and _"
-    read -p "Please write the default admin password : " -s TRAEFIK_DEFAULT_PASSWORD
-    echo
-
-    if [[ ${TRAEFIK_DEFAULT_PASSWORD} =~ ^[A-Za-z0-9_]+$ ]]; then
-        echo "Password accepted"
-    else
-        unset TRAEFIK_DEFAULT_PASSWORD
-        echo "Try again"
-    fi
-done
-
 ENC_TRAEFIK_PASSWORD=$(htpasswd -nb admin $TRAEFIK_DEFAULT_PASSWORD)
 
 figlet "Domain name"
 
-# domain name
-echo
-read -p "Please write the domain name for the containers configuration : " DOMAIN_NAME
-echo
-
-figlet "Configuration files"
+figlet "Config files"
 
 # copy the traefik templates to docker/traefik
 sudo mkdir -p $TRAEFIK_FOLDER
@@ -125,10 +130,15 @@ sudo cp *.yml $OPT_FOLDER
 cd $TRAEFIK_FOLDER
 sudo touch acme.json && sudo chmod 600 acme.json
 
-# TODO : Modify the files to replaces the variables in traefik_dynamic.toml
+sed -i "s/TRAEFIKPASSWORD/$ENC_TRAEFIK_PASSWORD/" traefik_dynamic.toml
+sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/" traefik_dynamic.toml
+sed -i "s/EMAIL/$DOMAIN_NAME/" traefik.toml
 
 cd $OPT_FOLDER
-# TODO : same here
+
+sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/" basic-config.yml
+sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/" apps-config.yml
+sed -i "s/SECRETPASSWORD/$TRAEFIK_DEFAULT_PASSWORD/" apps-config.yml
 
 #back to the original folder
 cd $INITIAL_DIR

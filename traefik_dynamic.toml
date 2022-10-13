@@ -1,10 +1,10 @@
 [http.middlewares.simpleAuth.basicAuth]
   users = [
-    "$PASSWORD"
+    "TRAEFIKPASSWORD"
   ]
 
 [http.routers.api]
-  rule = "Host(`monitor.$DOMAIN`)"
+  rule = "Host(`monitor.MACHINEDOMAIN`)"
   entrypoints = ["websecure"]
   middlewares = ["simpleAuth"]
   service = "api@internal"

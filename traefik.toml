@@ -12,7 +12,7 @@
   dashboard = true
 
 [certificatesResolvers.lets-encrypt.acme]
-  email = "$EMAIL"
+  email = "EMAIL"
   storage = "acme.json"
   [certificatesResolvers.lets-encrypt.acme.tlsChallenge]
 

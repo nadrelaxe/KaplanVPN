@@ -9,11 +9,11 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
-      - PASSWORD=$SECRETPASSWORD
+      - PASSWORD=SECRETPASSWORD
     volumes:
       - /home/docker/vscode/:/config
     labels:
-      - traefik.http.routers.vscode.rule=Host(`vscode.$DOMAIN`)
+      - traefik.http.routers.vscode.rule=Host(`vscode.MACHINEDOMAIN`)
       - traefik.http.routers.vscode.tls=true
       - traefik.http.routers.vscode.tls.certresolver=lets-encrypt
       - traefik.docker.network=web
@@ -36,13 +36,13 @@ services:
     environment:
       - UID=1000
       - GID=1000
-      - FLOOD_SECRET=$SECRETPASSWORD
+      - FLOOD_SECRET=SECRETPASSWORD
     volumes:
       - /home/docker/flood/:/flood-db
       - /home/media/torrents:/data
     labels:
       - traefik.enable=true
-      - traefik.http.routers.rtorrent.rule=Host(`torrent.$DOMAIN`)
+      - traefik.http.routers.rtorrent.rule=Host(`torrent.MACHINEDOMAIN`)
       - traefik.http.routers.rtorrent.tls=true
       - traefik.http.routers.rtorrent.tls.certresolver=lets-encrypt
       - traefik.docker.network=web
