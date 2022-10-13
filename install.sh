@@ -109,7 +109,7 @@ figlet "Domain name"
 # domain name
 while [ -z "${DOMAIN_NAME}" ]; do
     echo
-    read "Please write the domain name for the containers configuration : " -s DOMAIN_NAME
+    read -p "Please write the domain name for the containers configuration : " DOMAIN_NAME
     echo
 done
 
