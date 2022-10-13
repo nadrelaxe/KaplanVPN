@@ -13,6 +13,8 @@ exiterr() { echo "Error: $1" >&2; exit 1; }
 set -e
 export DEBIAN_FRONTEND=noninteractive
 
+# TODO : Add a sudo request at the beginning
+
 ## VARIABLES ##
 INITIAL_DIR=$(pwd)
 USER="kaplan"
@@ -133,7 +135,7 @@ sudo touch acme.json && sudo chmod 600 acme.json
 
 sudo sed -i "s/TRAEFIKPASSWORD/$ENC_TRAEFIK_PASSWORD/g" traefik_dynamic.toml
 sudo sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" traefik_dynamic.toml
-sudo sed -i "s/EMAIL/$DOMAIN_NAME/g" traefik.toml
+sudo sed -i "s/EMAIL/$EMAIL/g" traefik.toml
 
 cd $OPT_FOLDER
 
@@ -152,6 +154,15 @@ sudo docker network create web
 figlet "Starting up!"
 #start the shit and make profit
 
+cd $OPT_FOLDER
+sudo -f basic_config.yml docker-compose up -d
+
 # potentially export the codes for wireguard and make sure everything is running smoothly ?
 
-#TODO : Add a reminder to reboot the machine after the installation
+echo
+echo "Please reboot the machine before checking all the applications"
+echo
+echo "Some unexpected behavior may occur if you don't reboot the machine"
+echo
+echo "Thank you for using this script ans have a great day!"
+echo
