@@ -108,35 +108,26 @@ if ! [ -x "$(command -v docker-compose)" ]; then
     exiterr "Docker compose has not installed properly"
 fi
 
-sudo systemctl enable docker
-sudo systemctl start docker
-
-sudo usermod -aG docker $USER
-
-figlet "Admin password"
-
 # apache tools + traefik admin password
 sudo apt-get install -y apache2-utils
 ENC_TRAEFIK_PASSWORD=$(htpasswd -nb admin $TRAEFIK_DEFAULT_PASSWORD)
-
-figlet "Domain name"
 
 figlet "Config files"
 
 # copy the traefik templates to docker/traefik
 sudo mkdir -p $TRAEFIK_FOLDER
 sudo mkdir -p $OPT_FOLDER
-
 sudo cp *.toml $TRAEFIK_FOLDER
 sudo cp *.yml $OPT_FOLDER
 
+# traefik configuration
 cd $TRAEFIK_FOLDER
 sudo touch acme.json && sudo chmod 600 acme.json
-
 sudo sed -i "s/TRAEFIKPASSWORD/$ENC_TRAEFIK_PASSWORD/g" traefik_dynamic.toml
 sudo sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" traefik_dynamic.toml
 sudo sed -i "s/EMAIL/$EMAIL/g" traefik.toml
 
+#docker-compose files configuration
 cd $OPT_FOLDER
 
 sudo sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" basic-config.yml
@@ -149,15 +140,20 @@ cd $INITIAL_DIR
 figlet "Docker config"
 
 # docker configuration
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo usermod -aG docker $USER
 sudo docker network create web
 
+# start the shit
 figlet "Starting up!"
-#start the shit and make profit
 
 cd $OPT_FOLDER
 sudo -f basic_config.yml docker-compose up -d
 
-# potentially export the codes for wireguard and make sure everything is running smoothly ?
+# TODO : potentially export the codes for wireguard and make sure everything is running smoothly ?
+
+# TODO : add the useful command and all the available links 
 
 echo
 echo "Please reboot the machine before checking all the applications"
