@@ -150,7 +150,7 @@ sudo docker network create web
 # start the shit
 figlet "Starting up!"
 
-sudo docker-compose -f $OPT_FOLDER/basic_config.yml up -d
+sudo docker-compose -f $OPT_FOLDER/basic-config.yml up -d
 
 # TODO : potentially export the codes for wireguard and make sure everything is running smoothly ?
 
