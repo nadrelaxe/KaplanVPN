@@ -113,7 +113,7 @@ fi
 
 # apache tools + traefik admin password
 sudo apt-get install -y apache2-utils
-ENC_TRAEFIK_PASSWORD=$(htpasswd -nb admin $TRAEFIK_DEFAULT_PASSWORD)
+htpasswd -b $TRAEFIK_FOLDER/.htpasswd admin $TRAEFIK_DEFAULT_PASSWORD
 
 figlet "Config files"
 
@@ -135,7 +135,6 @@ cd $OPT_FOLDER
 
 sudo sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" basic-config.yml
 sudo sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" apps-config.yml
-sudo sed -i "s/SECRETPASSWORD/$TRAEFIK_DEFAULT_PASSWORD/g" apps-config.yml
 
 #back to the original folder
 cd $INITIAL_DIR
