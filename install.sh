@@ -113,7 +113,7 @@ fi
 
 # apache tools + traefik admin password
 sudo apt-get install -y apache2-utils
-htpasswd -b $TRAEFIK_FOLDER/.htpasswd admin $TRAEFIK_DEFAULT_PASSWORD
+htpasswd -bc $TRAEFIK_FOLDER/.htpasswd admin $TRAEFIK_DEFAULT_PASSWORD
 
 figlet "Config files"
 
