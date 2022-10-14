@@ -13,8 +13,6 @@ exiterr() { echo "Error: $1" >&2; exit 1; }
 set -e
 export DEBIAN_FRONTEND=noninteractive
 
-# TODO : Add a sudo request at the beginning
-
 ## VARIABLES ##
 INITIAL_DIR=$(pwd)
 USER="kaplan"
@@ -24,24 +22,29 @@ EMAIL="$EMAIL"
 TRAEFIK_FOLDER="/home/docker/traefik"
 OPT_FOLDER="/opt"
 
+# if not root. Request a sudo action
+if [ $(whoami) != "root" ]; then
+    sudo su $USER
+fi
+
 # ensure run as nonroot user
 if [ $(whoami) != "$USER" ]; then
-        echo "Creating user: $USER"
-        sudo useradd -s /bin/bash -d /home/$USER -m -G sudo $USER 2>/dev/null || true
+    echo "Creating user: $USER"
+    sudo useradd -s /bin/bash -d /home/$USER -m -G sudo $USER 2>/dev/null || true
 
-        # SUDO
-        case `sudo grep -e "^$USER.*" /etc/sudoers >/dev/null; echo $?` in
-        0)
-            echo "$USER already in sudoers"
-            ;;
-        1)
-            echo "Adding $USER to sudoers"
-            sudo bash -c "echo '$USER  ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
-            ;;
-        *)
-            echo "There was a problem checking sudoers"
-            ;;
-        esac
+    # SUDO
+    case `sudo grep -e "^$USER.*" /etc/sudoers >/dev/null; echo $?` in
+    0)
+        echo "$USER already in sudoers"
+        ;;
+    1)
+        echo "Adding $USER to sudoers"
+        sudo bash -c "echo '$USER  ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
+        ;;
+    *)
+        echo "There was a problem checking sudoers"
+        ;;
+    esac
 fi
 
 echo "Running as $USER"
@@ -148,13 +151,22 @@ sudo docker network create web
 # start the shit
 figlet "Starting up!"
 
-cd $OPT_FOLDER
-sudo -f basic_config.yml docker-compose up -d
+sudo docker-compose -f $OPT_FOLDER/basic_config.yml up -d
 
 # TODO : potentially export the codes for wireguard and make sure everything is running smoothly ?
 
 # TODO : add the useful command and all the available links 
 
+#clear
+figlet "IT WORKS"
+
+echo "Useful information :"
+echo
+echo "Links :" 
+echo "  - https://$DOMAIN_NAME"
+echo "  - https://monitor.$DOMAIN_NAME"
+echo "  - https://portainer.$DOMAIN_NAME"
+echo
 echo
 echo "Please reboot the machine before checking all the applications"
 echo
