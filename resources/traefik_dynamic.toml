@@ -1,7 +1,5 @@
 [http.middlewares.simpleAuth.basicAuth]
-  users = [
-    "TRAEFIKPASSWORD"
-  ]
+  usersFile = ".htpassswd"
 
 [http.routers.api]
   rule = "Host(`monitor.MACHINEDOMAIN`)"
