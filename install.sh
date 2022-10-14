@@ -111,10 +111,6 @@ if ! [ -x "$(command -v docker-compose)" ]; then
     exiterr "Docker compose has not installed properly"
 fi
 
-# apache tools + traefik admin password
-sudo apt-get install -y apache2-utils
-htpasswd -bc $TRAEFIK_FOLDER/.htpasswd admin $TRAEFIK_DEFAULT_PASSWORD
-
 figlet "Config files"
 
 # copy the traefik templates to docker/traefik
@@ -138,6 +134,10 @@ sudo sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" apps-config.yml
 
 #back to the original folder
 cd $INITIAL_DIR
+
+# apache tools + traefik admin password
+sudo apt-get install -y apache2-utils
+htpasswd -bc $TRAEFIK_FOLDER/.htpasswd admin $TRAEFIK_DEFAULT_PASSWORD
 
 figlet "Docker config"
 
