@@ -20,6 +20,7 @@ TRAEFIK_DEFAULT_PASSWORD="$TRAEFIK_DEFAULT_PASSWORD"
 DOMAIN_NAME="$DOMAIN_NAME"
 EMAIL="$EMAIL"
 TRAEFIK_FOLDER="/home/docker/traefik"
+HOME_FOLDER="/home/docker/homer"
 OPT_FOLDER="/opt"
 
 # if not root. Request a sudo action
@@ -115,9 +116,11 @@ figlet "Config files"
 
 # copy the traefik templates to docker/traefik
 sudo mkdir -p $TRAEFIK_FOLDER
+sudo mkdir -p $HOME_FOLDER
 sudo mkdir -p $OPT_FOLDER
 sudo cp resources/*.toml $TRAEFIK_FOLDER
 sudo cp resources/*.yml $OPT_FOLDER
+sudo chown -R 1000:1000 $HOME_FOLDER
 
 # traefik configuration
 cd $TRAEFIK_FOLDER
@@ -146,6 +149,12 @@ sudo systemctl enable docker
 sudo systemctl start docker
 sudo usermod -aG docker $USER
 sudo docker network create web
+
+# Add crontab job to remove unused images
+sudo crontab -l > tmpcron
+echo "0 3 * * * /usr/bin/docker system prune -f" >> tmpcron
+sudo crontab tmpcron
+sudo rm tmpcron
 
 # start the shit
 figlet "Starting up!"
