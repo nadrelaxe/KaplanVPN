@@ -1,7 +1,13 @@
 # KaplanVPN
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/nadrelaxe/KaplanVPN)
-[![Npm package license](https://badgen.net/npm/llicense/discord.js)](https://opensource.org/licenses/MIT)
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/nadrelaxe/KaplanVPN/blob/master/LICENSE)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+[![GitHub latest commit](https://badgen.net/github/last-commit/Naereen/Strapdown.js)](https://github.com/nadrelaxe/KaplanVPN/)
+
+[![Visual Studio Code](https://img.shields.io/badge/--007ACC?logo=visual%20studio%20code&logoColor=ffffff)](https://code.visualstudio.com/)
+[![Docker](https://badgen.net/badge/icon/docker?icon=docker&label)](https://https://docker.com/)
+
 
 <p align="center">
    <img src="resources/homer/myicons/logo-color.png" alt="Kaplan logo" width="500"/>
