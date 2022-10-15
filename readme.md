@@ -6,6 +6,13 @@
 
 ## Tables of contents
 
+- [KaplanVPN](#kaplanvpn)
+  - [Tables of contents](#tables-of-contents)
+  - [Features](#features)
+    - [Basic configuration](#basic-configuration)
+    - [Additional applications](#additional-applications)
+  - [Getting started](#getting-started)
+
 ## Features
 
 ### Basic configuration
