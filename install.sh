@@ -140,7 +140,7 @@ cd $INITIAL_DIR
 
 # apache tools + traefik admin password
 sudo apt-get install -y apache2-utils
-htpasswd -bc $TRAEFIK_FOLDER/.htpasswd admin $TRAEFIK_DEFAULT_PASSWORD
+htpasswd -bc $TRAEFIK_FOLDER/auth/.htpasswd admin $TRAEFIK_DEFAULT_PASSWORD
 
 figlet "Docker config"
 
