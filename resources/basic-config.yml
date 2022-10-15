@@ -15,7 +15,6 @@ services:
       - "/home/docker/traefik/.htpasswd:/auth/.htpasswd"
       - "/var/run/docker.sock:/var/run/docker.sock"
     labels:
-      - "traefik.http.middlewares.simpleAuth.basicAuth.usersFile=/auth/.htpasswd"
       - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - web
