@@ -1,6 +1,8 @@
 # KaplanVPN
 
-<img src="resources/homer/myicons/logo-color.png" alt="Kaplan logo" width="500"/>
+<p align="center">
+   <img src="resources/homer/myicons/logo-color.png" alt="Kaplan logo" width="500"/>
+</p>
 
 ## Tables of contents
 
