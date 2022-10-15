@@ -1,5 +1,8 @@
 # KaplanVPN
 
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/nadrelaxe/KaplanVPN)
+[![Npm package license](https://badgen.net/npm/llicense/discord.js)](https://opensource.org/licenses/MIT)
+
 <p align="center">
    <img src="resources/homer/myicons/logo-color.png" alt="Kaplan logo" width="500"/>
 </p>
@@ -30,7 +33,7 @@ It will also deploy Wireguard VPN ~~and IKEv2 + L2TP/IPSeC VPN~~ for privacy and
 
 ### Additional applications
 
-NOT AVAILABLE YET! DEVELOMENT IS IN PROGRESS
+**NOT AVAILABLE YET! DEVELOMENT IS IN PROGRESS**
 
 - Code server, a web-based Visual Studio Code application
 - RTorrent flood for torrent management
