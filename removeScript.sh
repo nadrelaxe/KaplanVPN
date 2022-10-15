@@ -1,6 +1,6 @@
 #/bin/bash
 
-if ! $(docker ps -q | wc -l); then
+if ! docker ps -q | wc -l; then
     echo "No running containers"
     exit 0
 else

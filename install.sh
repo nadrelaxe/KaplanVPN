@@ -116,7 +116,6 @@ figlet "Config files"
 
 # copy the traefik templates to docker/traefik
 sudo mkdir -p $TRAEFIK_FOLDER
-sudo mkdir -p $TRAEFIK_FOLDER/auth
 sudo mkdir -p $HOME_FOLDER
 sudo mkdir -p $OPT_FOLDER
 sudo cp resources/*.toml $TRAEFIK_FOLDER
@@ -126,7 +125,6 @@ sudo chown -R 1000:1000 $HOME_FOLDER
 # traefik configuration
 cd $TRAEFIK_FOLDER
 sudo touch acme.json && sudo chmod 600 acme.json
-sudo sed -i "s/TRAEFIKPASSWORD/$ENC_TRAEFIK_PASSWORD/g" traefik_dynamic.toml
 sudo sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" traefik_dynamic.toml
 sudo sed -i "s/EMAIL/$EMAIL/g" traefik.toml
 
@@ -138,10 +136,6 @@ sudo sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" apps-config.yml
 
 #back to the original folder
 cd $INITIAL_DIR
-
-# apache tools + traefik admin password
-sudo apt-get install -y apache2-utils
-htpasswd -bc $TRAEFIK_FOLDER/auth/.htpasswd admin $TRAEFIK_DEFAULT_PASSWORD
 
 figlet "Docker config"
 
@@ -180,7 +174,7 @@ echo "Useful information :"
 echo
 echo "Links :" 
 echo "  - https://$DOMAIN_NAME"
-echo "  - https://monitor.$DOMAIN_NAME"
+#echo "  - https://monitor.$DOMAIN_NAME"
 echo "  - https://portainer.$DOMAIN_NAME"
 echo
 echo
