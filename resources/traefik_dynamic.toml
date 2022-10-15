@@ -1,5 +1,5 @@
 [http.middlewares.simpleAuth.basicAuth]
-  usersFile = "/auth/.htpasswd"
+  usersFile = "/auth/auth.htpasswd"
 
 [http.routers.api]
   rule = "Host(`monitor.MACHINEDOMAIN`)"

@@ -12,7 +12,7 @@ services:
       - "/home/docker/traefik/traefik.toml:/traefik.toml"
       - "/home/docker/traefik/traefik_dynamic.toml:/traefik_dynamic.toml"
       - "/home/docker/traefik/acme.json:/acme.json"
-      - "/home/docker/traefik/.htpasswd:/auth/.htpasswd"
+      - "/home/docker/traefik/auth.htpasswd:/auth/auth.htpasswd"
       - "/var/run/docker.sock:/var/run/docker.sock"
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
