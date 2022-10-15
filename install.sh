@@ -150,11 +150,18 @@ sudo systemctl start docker
 sudo usermod -aG docker $USER
 sudo docker network create web
 
+# Do not stop the script on first failure
+# By default, the crontab is empty so it return 1
+set +e
+
 # Add crontab job to remove unused images
 sudo crontab -l > tmpcron
 echo "0 3 * * * /usr/bin/docker system prune -f" >> tmpcron
 sudo crontab tmpcron
 sudo rm tmpcron
+
+# Re-set the stop-on-failure
+set -e
 
 # start the shit
 figlet "Starting up!"
