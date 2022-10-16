@@ -22,7 +22,7 @@ EMAIL="$EMAIL"
 TRAEFIK_FOLDER="/home/docker/traefik"
 HOME_FOLDER="/home/docker/homer"
 OPT_FOLDER="/opt"
-VPN_PORT=22222
+VPN_PORT=51820
 VPN_PEERS="Thanos,NEX3,Echo,Deadpool"
 
 # if not root. Request a sudo action
