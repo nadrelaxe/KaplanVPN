@@ -22,6 +22,8 @@ EMAIL="$EMAIL"
 TRAEFIK_FOLDER="/home/docker/traefik"
 HOME_FOLDER="/home/docker/homer"
 OPT_FOLDER="/opt"
+VPN_PORT=22222
+VPN_PEERS="Thanos,NEX3,Echo,Deadpool"
 
 # if not root. Request a sudo action
 if [ $(whoami) != "root" ]; then
@@ -132,6 +134,8 @@ sudo sed -i "s/EMAIL/$EMAIL/g" traefik.toml
 cd $OPT_FOLDER
 
 sudo sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" basic-config.yml
+sudo sed -i "s/VPNPORT/$VPN_PORT/g" basic-config.yml
+sudo sed -i "s/VPNPEERS/$VPN_PEERS/g" basic-config.yml
 sudo sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" apps-config.yml
 
 #back to the original folder
