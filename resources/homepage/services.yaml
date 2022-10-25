@@ -1,0 +1,48 @@
+---
+# For configuration options and examples, please see:
+# https://github.com/benphelps/homepage/wiki/Services
+
+- Containers:
+
+    - Traefik:
+        icon: traefik.png
+        description: Reverse proxy
+        server: my-docker
+        container: traefik
+    - Wireguard:
+        icon: wireguard.png
+        description: VPN Server
+        server: my-docker
+        container: wireguard
+    - Portainer:
+        icon: portainer.png
+        description: Container manager
+        server: my-docker
+        container: portainer
+    - Watchtower:
+        icon: watchtower.png
+        description: Container updater
+        server: my-docker
+        container: watchtower
+
+- Portainer:
+    - Portainer:
+        icon: portainer.png
+        href: https://portainer.MACHINEDOMAIN
+        description: Container management
+        widget:
+          type: portainer
+          url: https://portainer.MACHINEDOMAIN:9443
+          fields: ["running", "stopped", "total"]
+          env: 2
+          key: REPLACEKEY
+
+- Speedtest:
+    - speedtest tracker:
+        icon: speedtest-tracker.png
+        href: https://speedtest.MACHINEDOMAIN
+        description: check speedtest
+        widget:
+          type: speedtest
+          fields: ["download", "upload", "ping"]
+          url: https://speedtest.MACHINEDOMAIN

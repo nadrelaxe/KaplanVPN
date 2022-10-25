@@ -10,7 +10,7 @@
 
 
 <p align="center">
-   <img src="resources/homer/myicons/logo-color.png" alt="Kaplan logo" width="500"/>
+   <img src="resources/homepage/myicons/logo-color.png" alt="Kaplan logo" width="500"/>
 </p>
 
 KaplanVPN is a shell script and resources to deploy a plug-and-play privacy environment. It is easy to maintain with Portainer that allows to see the docker containers through web-ui.
@@ -34,7 +34,7 @@ It will also deploy Wireguard VPN ~~and IKEv2 + L2TP/IPSeC VPN~~ for privacy and
 - [Portainer](https://www.portainer.io/) for an easy web-ui container management
 - [Wireguard](https://www.wireguard.com/) for VPN Setup
 - [Watchtower](https://github.com/containrrr/watchtower) to always keep containers up to date
-- [Homer](https://github.com/bastienwirtz/homer) for an easy and convenient homepage
+- [Homepage](https://github.com/benphelps/homepage) for an easy and convenient homepage
 - [Crontab](https://man7.org/linux/man-pages/man5/crontab.5.html) to daily remove unused images
 
 ### Additional applications

@@ -24,6 +24,8 @@ services:
     container_name: portainer
     depends_on:
       - "traefik"
+    ports:
+      - "9443:9443"
     volumes:
       - /home/docker/portainer/:/data
       - /var/run/docker.sock:/var/run/docker.sock
@@ -48,19 +50,20 @@ services:
       - traefik.enable=false
     command: --label-enable
 
-  homer:
-    image: b4bz/homer:latest
+  homepage:
+    image: ghcr.io/benphelps/homepage:latest
     container_name: homepage
     depends_on:
       - "traefik"
     volumes:
-      - /home/docker/homer/:/www/assets
+      - /home/docker/homepage/:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock
     labels:
       - traefik.http.routers.homepage.rule=Host(`MACHINEDOMAIN`)
       - traefik.http.routers.homepage.tls=true
       - traefik.http.routers.homepage.tls.certresolver=lets-encrypt
       - traefik.docker.network=web
-      - traefik.port=8080
+      - traefik.port=3000
       - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - web
@@ -91,6 +94,28 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     restart: unless-stopped
+    
+  speedtestTracker:
+    image: henrywhitaker3/speedtest-tracker
+    container_name: speedtestTracker
+    depends_on:
+      - "traefik"
+    volumes:
+      - /home/docker/speedtestTracker:/config
+    environment:
+      - TZ=Europe/Paris
+      - OOKLA_EULA_GDPR=true
+      - AUTH=true
+    labels:
+      - traefik.http.routers.speedtest.rule=Host(`speedtest.MACHINEDOMAIN`)
+      - traefik.http.routers.speedtest.tls=true
+      - traefik.http.routers.speedtest.tls.certresolver=lets-encrypt
+      - traefik.docker.network=web
+      - traefik.port=80
+      - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - web
+    restart: always
 
 networks:
   web:

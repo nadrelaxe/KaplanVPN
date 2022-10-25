@@ -16,11 +16,10 @@ export DEBIAN_FRONTEND=noninteractive
 ## VARIABLES ##
 INITIAL_DIR=$(pwd)
 USER="kaplan"
-TRAEFIK_DEFAULT_PASSWORD="$TRAEFIK_DEFAULT_PASSWORD"
 DOMAIN_NAME="$DOMAIN_NAME"
 EMAIL="$EMAIL"
 TRAEFIK_FOLDER="/home/docker/traefik"
-HOME_FOLDER="/home/docker/homer"
+HOME_FOLDER="/home/docker/homepage"
 OPT_FOLDER="/opt"
 VPN_PORT=54321
 VPN_PEERS="Thanos,NEX3,Echo,Deadpool"
@@ -53,21 +52,6 @@ fi
 echo "Running as $USER"
 
 ## USER INTERACTION ##
-# traefik password
-while [ -z "${TRAEFIK_DEFAULT_PASSWORD}" ]; do
-    echo
-    echo "The default admin password may only container alphanumeric characters and _"
-    read -p "Please write the default admin password : " -s TRAEFIK_DEFAULT_PASSWORD
-    echo
-
-    if [[ ${TRAEFIK_DEFAULT_PASSWORD} =~ ^[A-Za-z0-9_]+$ ]]; then
-        echo "Password accepted"
-    else
-        unset TRAEFIK_DEFAULT_PASSWORD
-        echo "Try again"
-    fi
-done
-
 # domain name
 echo
 read -p "Please write the domain name for the containers configuration : " DOMAIN_NAME
@@ -122,7 +106,12 @@ sudo mkdir -p $HOME_FOLDER
 sudo mkdir -p $OPT_FOLDER
 sudo cp resources/*.toml $TRAEFIK_FOLDER
 sudo cp resources/*.yml $OPT_FOLDER
-sudo chown -R 1000:1000 $HOME_FOLDER
+sudo cp -R resources/homepage/* $HOME_FOLDER
+
+# homepage configuration
+cd $HOME_FOLDER
+sudo sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" services.yaml
+sudo sed -i "s/MACHINEDOMAIN/$DOMAIN_NAME/g" settings.yaml
 
 # traefik configuration
 cd $TRAEFIK_FOLDER
@@ -178,9 +167,10 @@ echo "Useful information :"
 echo
 echo "Links :" 
 echo "  - https://$DOMAIN_NAME"
-#echo "  - https://monitor.$DOMAIN_NAME"
 echo "  - https://portainer.$DOMAIN_NAME"
-echo
+echo "  - https://speedtest.$DOMAIN_NAME"
+#echo "  - https://"
+#echo "  - https://"
 echo
 echo "Please reboot the machine before checking all the applications"
 echo
